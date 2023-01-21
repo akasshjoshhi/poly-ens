@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 import {StringUtils} from "./libraries/StringUtils.sol";
 import "@openzeppelin/contracts/utils/Base64.sol";
 
-// import "hardhat/console.sol";
+import "hardhat/console.sol";
 
 contract Domains is ERC721URIStorage {
     address payable public owner;
@@ -43,7 +43,7 @@ contract Domains is ERC721URIStorage {
         unique["franky"] = 1;
         unique["sanji"] = 1;
 
-        //console.log("%s name service deployed", _tld);
+        console.log("%s name service deployed", _tld);
     }
 
     error Unauthorized();
@@ -86,7 +86,7 @@ contract Domains is ERC721URIStorage {
         uint256 length = StringUtils.strlen(name);
         string memory strLen = Strings.toString(length);
 
-        //console.log("Registering %s.%s on the contract with tokenID %d", name, tld, newRecordId);
+        console.log("Registering %s.%s on the contract with tokenID %d", name, tld, newRecordId);
 
         string memory json = Base64.encode(
             abi.encodePacked(
@@ -103,9 +103,9 @@ contract Domains is ERC721URIStorage {
             abi.encodePacked("data:application/json;base64,", json)
         );
 
-        //console.log("\n--------------------------------------------------------");
-        //console.log("Final tokenURI", finalTokenUri);
-        //console.log("--------------------------------------------------------\n");
+        console.log("\n--------------------------------------------------------");
+        console.log("Final tokenURI", finalTokenUri);
+        console.log("--------------------------------------------------------\n");
 
         _safeMint(msg.sender, newRecordId);
         _setTokenURI(newRecordId, finalTokenUri);
@@ -113,7 +113,7 @@ contract Domains is ERC721URIStorage {
         names[newRecordId] = name;
         _tokenIds.increment();
 
-        //console.log("%s has registered a domain!", msg.sender);
+        console.log("%s has registered a domain!", msg.sender);
     }
 
     function getAddress(string calldata name) public view returns (address) {
@@ -150,11 +150,11 @@ contract Domains is ERC721URIStorage {
     }
 
     function getAllNames() public view returns (string[] memory) {
-        //console.log("Getting all names from contract");
+        console.log("Getting all names from contract");
         string[] memory allNames = new string[](_tokenIds.current());
         for (uint256 i = 0; i < _tokenIds.current(); i++) {
             allNames[i] = names[i];
-            //console.log("Name for token %d is %s", i, allNames[i]);
+            console.log("Name for token %d is %s", i, allNames[i]);
         }
 
         return allNames;
